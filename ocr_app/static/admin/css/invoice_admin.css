@@ -1,0 +1,168 @@
+/**
+ * Invoice OCR Admin CSS
+ * Admin interface styling
+ */
+
+/* File upload area */
+.file-input {
+    border: 2px dashed #007cba;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    background: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.file-input:hover {
+    border-color: #005a87;
+    background: #e3f2fd;
+}
+
+/* File info display */
+.file-info {
+    margin-top: 15px;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.file-info h4 {
+    margin: 0 0 10px 0;
+    color: white;
+    font-size: 16px;
+}
+
+.file-info p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Fieldset styling */
+.fieldset {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.fieldset h2 {
+    background: #f8f9fa;
+    margin: 0;
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.fieldset .form-row {
+    padding: 15px;
+}
+
+/* Process button */
+#process-invoice-btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+#process-invoice-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Status indicators */
+.status-pending {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+.status-processing {
+    color: #17a2b8;
+    font-weight: bold;
+}
+
+.status-completed {
+    color: #28a745;
+    font-weight: bold;
+}
+
+.status-failed {
+    color: #dc3545;
+    font-weight: bold;
+}
+
+/* Progress bar */
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 5px 0;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    transition: width 0.3s ease;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .file-info {
+        padding: 10px;
+    }
+    
+    .file-info h4 {
+        font-size: 14px;
+    }
+    
+    .file-info p {
+        font-size: 12px;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.file-info {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Tooltips */
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 200px;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -100px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}

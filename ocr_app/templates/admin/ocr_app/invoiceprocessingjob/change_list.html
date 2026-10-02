@@ -1,0 +1,179 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+
+{% block extrahead %}
+{{ block.super }}
+<style>
+    .workflow-info {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .workflow-info h3 {
+        margin: 0 0 15px 0;
+        font-size: 18px;
+    }
+    
+    .workflow-steps {
+        display: flex;
+        gap: 20px;
+        margin-top: 15px;
+    }
+    
+    .workflow-step {
+        flex: 1;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 15px;
+        border-radius: 6px;
+        text-align: center;
+    }
+    
+    .workflow-step .step-number {
+        background: rgba(255, 255, 255, 0.2);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+        font-weight: bold;
+    }
+    
+    .workflow-step .step-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+    
+    .workflow-step .step-desc {
+        font-size: 12px;
+        opacity: 0.9;
+    }
+    
+    .status-indicator {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .status-pending {
+        background: #fff3cd;
+        color: #856404;
+    }
+    
+    .status-processing {
+        background: #d1ecf1;
+        color: #0c5460;
+    }
+    
+    .status-completed {
+        background: #d4edda;
+        color: #155724;
+    }
+    
+    .status-failed {
+        background: #f8d7da;
+        color: #721c24;
+    }
+    
+    .action-buttons {
+        margin-top: 15px;
+    }
+    
+    .action-btn {
+        background: rgba(255, 255, 255, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 4px;
+        text-decoration: none;
+        margin-right: 10px;
+        display: inline-block;
+        transition: all 0.3s ease;
+    }
+    
+    .action-btn:hover {
+        background: rgba(255, 255, 255, 0.3);
+        color: white;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="workflow-info">
+    <h3>📄 Invoice OCR Processing Workflow</h3>
+    <p>Automatically parse PDF invoice files and extract structured data through these steps:</p>
+    
+    <div class="workflow-steps">
+        <div class="workflow-step">
+            <div class="step-number">1</div>
+            <div class="step-title">Upload PDF File</div>
+            <div class="step-desc">Select the invoice PDF file to process</div>
+        </div>
+        <div class="workflow-step">
+            <div class="step-number">2</div>
+            <div class="step-title">OCR Text Recognition</div>
+            <div class="step-desc">Extract text content using an OCR engine</div>
+        </div>
+        <div class="workflow-step">
+            <div class="step-number">3</div>
+            <div class="step-title">AI Structured Parsing</div>
+            <div class="step-desc">Extract structured data using an LLM</div>
+        </div>
+        <div class="workflow-step">
+            <div class="step-number">4</div>
+            <div class="step-title">Save Results</div>
+            <div class="step-desc">Automatically create InvoiceData records</div>
+        </div>
+    </div>
+    
+    <div class="action-buttons">
+        <a href="add/" class="action-btn">➕ Create New Processing Job</a>
+        <a href="../invoicedata/" class="action-btn">📊 View Parsed Results</a>
+    </div>
+</div>
+
+{{ block.super }}
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add styling to status column
+    const statusCells = document.querySelectorAll('td.field-status');
+    statusCells.forEach(cell => {
+        const status = cell.textContent.trim();
+        const indicator = document.createElement('span');
+        indicator.className = 'status-indicator status-' + status;
+        indicator.textContent = status.toUpperCase();
+        cell.innerHTML = '';
+        cell.appendChild(indicator);
+    });
+    
+    // Add view results button to completed jobs
+    const rows = document.querySelectorAll('tbody tr');
+    rows.forEach(row => {
+        const statusCell = row.querySelector('td.field-status');
+        if (statusCell && statusCell.textContent.trim() === 'completed') {
+            const idCell = row.querySelector('td.field-id');
+            if (idCell) {
+                const jobId = idCell.textContent.trim();
+                const viewResultBtn = document.createElement('a');
+                viewResultBtn.href = `../invoicedata/?job__id=${jobId}`;
+                viewResultBtn.className = 'action-btn';
+                viewResultBtn.textContent = 'View Results';
+                viewResultBtn.style.fontSize = '12px';
+                viewResultBtn.style.padding = '4px 8px';
+                statusCell.appendChild(document.createElement('br'));
+                statusCell.appendChild(viewResultBtn);
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

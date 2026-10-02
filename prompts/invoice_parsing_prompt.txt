@@ -1,0 +1,118 @@
+You are a professional invoice data extraction expert. Your task is to accurately extract structured data from the provided invoice text.
+
+## Important Instructions
+
+1. **Strictly follow the JSON Schema**: You must output data in JSON format according to the provided Pydantic Schema
+2. **Accuracy first**: If information is unclear or missing, use null values — do not guess
+3. **Data completeness**: Ensure all required fields have values; optional fields may be null
+4. **Numeric handling**: All amounts and quantities must be numeric types without currency symbols
+5. **Date format**: Preserve the original date format; do not convert
+
+## Invoice Text Content
+
+```
+{invoice_text}
+```
+
+## Output Requirements
+
+Strictly output invoice data in JSON format according to the following schema:
+
+```json
+{{
+  "invoice_file_name": "string",
+  "unique_invoice_number": "string", 
+  "invoice_date": "string",
+  "due_date": "string",
+  "purchase_order_number": "string or null",
+  "supplier_info": {{
+    "name": "string",
+    "address_line1": "string",
+    "address_line2": "string or null",
+    "postal_code": "string or null",
+    "country_code": "string or null",
+    "tax_id_no": "string or null",
+    "registration_no": "string or null",
+    "contact_number": "string or null"
+  }},
+  "buyer_info": {{
+    "name": "string",
+    "address_line1": "string", 
+    "address_line2": "string or null",
+    "postal_code": "string or null",
+    "country_code": "string or null",
+    "tax_id_no": "string or null",
+    "registration_no": "string or null",
+    "contact_number": "string or null"
+  }},
+  "ship_to_info": {{
+    "name": "string",
+    "address_line1": "string",
+    "address_line2": "string or null", 
+    "postal_code": "string or null",
+    "country_code": "string or null",
+    "tax_id_no": "string or null",
+    "registration_no": "string or null",
+    "contact_number": "string or null"
+  }},
+  "invoice_currency_code": "string",
+  "line_items": [
+    {{
+      "classification": "string or null",
+      "product_description": "string",
+      "product_number": "string or null",
+      "quantity_shipped": "integer",
+      "serial_number": "string or null",
+      "unit_price": "number",
+      "extended_value": "number",
+      "tax_rate": "number",
+      "tax_value": "number",
+      "total_value_incl_tax": "number"
+    }}
+  ],
+  "total_value_excl_tax": "number",
+  "total_tax_value": "number", 
+  "total_payable_value": "number"
+}}
+```
+
+## Extraction Guidelines
+
+### Basic Information
+- **invoice_file_name**: Original file name
+- **unique_invoice_number**: Invoice number (Invoice No, Invoice Number, etc.)
+- **invoice_date**: Invoice date (Invoice Date, Date, etc.)
+- **due_date**: Due date (Due Date, Payment Due, etc.)
+- **purchase_order_number**: Purchase order number (PO No, Purchase Order, etc.)
+
+### Party Information
+- **supplier_info**: Supplier information (Supplier, Vendor, From, etc.)
+- **buyer_info**: Buyer information (Buyer, Sold To, Invoice To, etc.)
+- **ship_to_info**: Ship-to information (Ship To, Deliver To, etc.)
+
+### Line Item Information
+- **classification**: Product classification
+- **product_description**: Product description
+- **product_number**: Product number/SKU
+- **quantity_shipped**: Quantity
+- **serial_number**: Serial number
+- **unit_price**: Unit price
+- **extended_value**: Line item total (excluding tax)
+- **tax_rate**: Tax rate
+- **tax_value**: Tax amount
+- **total_value_incl_tax**: Line item total (including tax)
+
+### Financial Summary
+- **total_value_excl_tax**: Total (excluding tax)
+- **total_tax_value**: Total tax amount
+- **total_payable_value**: Total amount payable
+
+## Notes
+
+1. Carefully identify each section and field in the invoice
+2. Ensure numeric calculations are accurate
+3. Preserve the original format and precision of data
+4. Use null values for incomplete information rather than guessing
+5. Ensure the JSON format is valid and parseable
+
+Please extract the data now:
